@@ -20,7 +20,7 @@ class EntityCollection
      * Get entity at given index
      *
      * @param $index
-     * @return mixed
+     * @return Entity
      */
     public function get($index)
     {

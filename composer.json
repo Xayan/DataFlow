@@ -1,19 +1,21 @@
 {
-    "name": "xayan/dataflow",
-    "description": "A data manipulation library",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Damian Stępień",
-            "email": "damian.stepien@me.com"
-        }
-    ],
-    "require": {},
-    "require-dev": {
-        "phpunit/phpunit": "^7.3"
-    },
-    "autoload": {
-        "DataFlow\\": "src/"
+  "name": "xayan/dataflow",
+  "description": "A data manipulation library",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Damian Stępień",
+      "email": "damian.stepien@me.com"
     }
+  ],
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "^7.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "DataFlow\\": "src/"
+    }
+  }
 }
