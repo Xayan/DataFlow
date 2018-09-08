@@ -20,6 +20,11 @@ class ImportPolicy
     private $quiet = false;
 
     /**
+     * @var bool
+     */
+    private $trimValues = false;
+
+    /**
      * @return int
      */
     public function getHeaderOffset()
@@ -67,5 +72,21 @@ class ImportPolicy
     public function setQuiet($quiet)
     {
         $this->quiet = $quiet;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTrimValues()
+    {
+        return $this->trimValues;
+    }
+
+    /**
+     * @param bool $trimValues
+     */
+    public function setTrimValues($trimValues)
+    {
+        $this->trimValues = $trimValues;
     }
 }

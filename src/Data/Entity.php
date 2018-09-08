@@ -8,10 +8,15 @@ class Entity
 
     /**
      * Entity constructor.
+     * @param array $properties
      */
-    public function __construct()
+    public function __construct(array $properties = [])
     {
         $this->children = new EntityCollection();
+
+        foreach($properties as $key => $value) {
+            $this->set($key, $value);
+        }
     }
 
     /**
@@ -39,13 +44,5 @@ class Entity
     public function has($key)
     {
         return property_exists($this, $key);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasChildren()
-    {
-        return $this->children->count() > 0;
     }
 }

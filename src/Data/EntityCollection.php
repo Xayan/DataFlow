@@ -7,6 +7,15 @@ class EntityCollection
     private $entities = [];
 
     /**
+     * EntityCollection constructor.
+     * @param array $entities
+     */
+    public function __construct(array $entities = [])
+    {
+        $this->entities = $entities;
+    }
+
+    /**
      * Add an entity to the collection
      *
      * @param Entity $entity
@@ -28,7 +37,19 @@ class EntityCollection
             throw new \InvalidArgumentException("Parameter \$i must be an integer");
         }
 
+        if(!isset($this->entities[(int)$index])) {
+            throw new \OutOfBoundsException("There is no element with given index");
+        }
+
         return $this->entities[(int)$index];
+    }
+
+    /**
+     * @return Entity[]
+     */
+    public function getAll()
+    {
+        return $this->entities;
     }
 
     /**
@@ -37,7 +58,13 @@ class EntityCollection
      */
     public function has(Entity $entity)
     {
-        return array_search($entity, $this->entities) !== false;
+        foreach ($this->entities as $collectedEntity) {
+            if ($entity === $collectedEntity) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -49,20 +76,21 @@ class EntityCollection
      */
     public function getIndex(Entity $entity)
     {
-        $index = array_search($entity, $this->entities);
-
-        if ($index === false) {
-            throw new \OutOfBoundsException("Entity not found");
+        foreach ($this->entities as $i => $collectedEntity) {
+            if ($entity === $collectedEntity) {
+                return $i;
+            }
         }
 
-        return $index;
+        throw new \OutOfBoundsException("Entity not found");
     }
 
     /**
      * Call a function, passing each entity as an argument
-     * Function has to have one parameter or two
-     * In case of one parameter, it will be calles with the entity as an argument
-     * In the other case, the first argument will be the index of an element, and then the element itself
+     * Function has to have between 0 and 2 parameters
+     * If 0: the array will be simply iterated
+     * If 1: first argument will contain Entity
+     * If 2: first argument will contain index, second will contain Entity
      *
      * @param $callable
      */
@@ -71,8 +99,8 @@ class EntityCollection
         $reflection = new \ReflectionFunction($callable);
         $parametersCount = count($reflection->getParameters());
 
-        if ($parametersCount < 1 || $parametersCount) {
-            throw new \InvalidArgumentException("Parameter \$callback should have only one or two arguments");
+        if ($parametersCount > 2) {
+            throw new \InvalidArgumentException("Parameter \$callable should have between 0 and 2 parameters");
         }
 
         foreach ($this->entities as $i => $entity) {
