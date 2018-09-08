@@ -29,12 +29,35 @@ class Entity
     }
 
     /**
+     * @return array
+     */
+    public function getAll()
+    {
+        $reflectionClass = new \ReflectionClass($this);
+        $values = [];
+
+        foreach ($reflectionClass->getProperties() as $property) {
+            $values[$property->getName()] = $property->getValue();
+        }
+
+        return $values;
+    }
+
+    /**
      * @param string $key
      * @param mixed $value
      */
     public function set($key, $value)
     {
         $this->$key = $value;
+    }
+
+    /**
+     * @param $key
+     */
+    public function remove($key)
+    {
+        unset($this->$key);
     }
 
     /**

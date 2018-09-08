@@ -1,0 +1,6 @@
+id;firstName;lastName;age
+1;John;Doe;20
+2;John;Carmack;50
+
+3;John;Romero;40
+4;invalid;row

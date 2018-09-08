@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\Data;
+namespace Test\DataFlow;
 
 use DataFlow\Data\Entity;
 use DataFlow\Data\EntityCollection;
@@ -100,7 +100,7 @@ class EntityCollectionTest extends TestCase
         $this->assertEquals(count($entities), $counter);
     }
 
-    public function testEachException()
+    public function testEachInvalidArgumentException()
     {
         $this->expectException(\InvalidArgumentException::class);
 

@@ -25,6 +25,21 @@ class ImportPolicy
     private $trimValues = false;
 
     /**
+     * @var string
+     */
+    private $delimiter = ',';
+
+    /**
+     * @var string
+     */
+    private $enclosure = '"';
+
+    /**
+     * @var string
+     */
+    private $escape = "\\";
+
+    /**
      * @return int
      */
     public function getHeaderOffset()
@@ -41,13 +56,12 @@ class ImportPolicy
     }
 
     /**
-     * @param int $columnIndex
-     * @param string $propertyName
+     * @param ColumnDefinition $columnDefinition
      */
-    public function addColumnDefinition($columnIndex, $propertyName)
+    public function addColumnDefinition(ColumnDefinition $columnDefinition)
     {
 
-        $this->columnDefinitions[$columnIndex] = $propertyName;
+        $this->columnDefinitions[] = $columnDefinition;
     }
 
     /**
@@ -88,5 +102,53 @@ class ImportPolicy
     public function setTrimValues($trimValues)
     {
         $this->trimValues = $trimValues;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelimiter()
+    {
+        return $this->delimiter;
+    }
+
+    /**
+     * @param string $delimiter
+     */
+    public function setDelimiter($delimiter)
+    {
+        $this->delimiter = $delimiter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEnclosure()
+    {
+        return $this->enclosure;
+    }
+
+    /**
+     * @param string $enclosure
+     */
+    public function setEnclosure($enclosure)
+    {
+        $this->enclosure = $enclosure;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEscape()
+    {
+        return $this->escape;
+    }
+
+    /**
+     * @param string $escape
+     */
+    public function setEscape($escape)
+    {
+        $this->escape = $escape;
     }
 }
