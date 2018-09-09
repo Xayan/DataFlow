@@ -1,4 +1,7 @@
 <?php
+
+namespace DataFlow;
+
 /**
  * Converts an array into CSV string
  * Source: https://stackoverflow.com/questions/16352591/convert-php-array-to-csv-string
