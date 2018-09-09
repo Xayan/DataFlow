@@ -160,6 +160,18 @@ class EntityCollectionTest extends TestCase
         }
     }
 
+    public function testMapUnexpectedValueException()
+    {
+        $this->expectException(\UnexpectedValueException::class);
+
+        $entity = new Entity();
+        $entityCollection = new EntityCollection([$entity]);
+
+        $entityCollection->map(function(Entity $entity) {
+            
+        });
+    }
+
     private function createDummyEntities($count, array $properties = [])
     {
         $entities = [];

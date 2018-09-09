@@ -4,7 +4,7 @@ namespace DataFlow\Data;
 
 class Entity
 {
-    private $children;
+    private $_children;
 
     /**
      * Entity constructor.
@@ -12,7 +12,7 @@ class Entity
      */
     public function __construct(array $properties = [])
     {
-        $this->children = new EntityCollection();
+        $this->_children = new EntityCollection();
 
         foreach($properties as $key => $value) {
             $this->set($key, $value);
@@ -33,11 +33,15 @@ class Entity
      */
     public function getAll()
     {
-        $reflectionClass = new \ReflectionClass($this);
+        $reflectionClass = new \ReflectionObject($this);
         $values = [];
 
         foreach ($reflectionClass->getProperties() as $property) {
-            $values[$property->getName()] = $property->getValue();
+            if(!$property->isPublic()) {
+                continue;
+            }
+
+            $values[$property->getName()] = $property->getValue($this);
         }
 
         return $values;

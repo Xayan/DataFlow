@@ -73,11 +73,13 @@ class ImportTest extends TestCase
             return $entity->has('age') && $entity->get('age') >= 18;
         })->map(function(Entity $entity) {
             $newEntity = new Entity($entity->getAll());
-
             $newEntity->set('fullName', $newEntity->get('firstName') . ' ' . $newEntity->get('lastName'));
+
+            return $newEntity;
         });
 
         $this->assertEquals(3, $people->count());
+        $this->assertEquals(2, $newPeople->count());
 
         foreach($people->getAll() as $person)
         {

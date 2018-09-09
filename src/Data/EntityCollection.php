@@ -37,7 +37,7 @@ class EntityCollection
             throw new \InvalidArgumentException("Parameter \$i must be an integer");
         }
 
-        if(!isset($this->entities[(int)$index])) {
+        if (!isset($this->entities[(int)$index])) {
             throw new \OutOfBoundsException("There is no element with given index");
         }
 
@@ -139,13 +139,20 @@ class EntityCollection
      *
      * @param $callable
      * @return EntityCollection
+     * @throws \UnexpectedValueException
      */
     public function map($callable)
     {
         $newCollection = new EntityCollection();
 
         foreach ($this->entities as $i => $entity) {
-            $newCollection->add($callable($entity));
+            $newEntity = $callable($entity);
+
+            if (!$newEntity instanceof Entity) {
+                throw new \UnexpectedValueException("Parameter \$callable must always return a new Entity");
+            }
+
+            $newCollection->add($newEntity);
         }
 
         return $newCollection;
