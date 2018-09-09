@@ -47,6 +47,8 @@ class ImportTest extends TestCase
         $importPolicy->setDelimiter(';');
         $importPolicy->setHeaderOffset(1);
         $importPolicy->setQuiet(false);
+        $importPolicy->setEnclosure('"');
+        $importPolicy->setEscape("\\");
         $importPolicy->addColumnDefinition(new ColumnDefinition(0,  'id'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(1,  'firstName'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(2,  'lastName'));

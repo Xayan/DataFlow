@@ -17,8 +17,6 @@ class Import
         $entities = [];
         $file = fopen($filename, 'r');
 
-        $maxIndex = max(array_keys($importPolicy->getColumnDefinitions()));
-
         $rowIndex = 0;
         while (($rowArray = fgetcsv(
                 $file,

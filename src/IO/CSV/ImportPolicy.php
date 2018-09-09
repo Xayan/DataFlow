@@ -39,6 +39,26 @@ class ImportPolicy
      */
     private $escape = "\\";
 
+    /***
+     * @param array $header
+     * @return ImportPolicy
+     */
+    public static function fromHeader(array $header)
+    {
+        $policy = new self();
+        $policy->setHeaderOffset(1);
+
+        foreach($header as $i => $key) {
+            if(empty($key)) {
+                continue;
+            }
+
+            $policy->addColumnDefinition(new ColumnDefinition($i, $key));
+        }
+
+        return $policy;
+    }
+
     /**
      * @return int
      */
