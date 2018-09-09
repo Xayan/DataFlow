@@ -35,15 +35,11 @@ class Import
                 continue;
             }
 
-            if (count($rowArray) - 1 < $maxIndex) {
-                if ($importPolicy->isQuiet()) {
-                    continue;
-                } else {
-                    throw new \OutOfBoundsException("Row $rowIndex does not contain enough columns, " . ($maxIndex + 1) . " are required as this is the highest index defined in ImportPolicy");
-                }
-            }
+            $entity = self::processRow($rowIndex, $rowArray, $importPolicy);
 
-            $entities[] = self::importRow($rowArray, $importPolicy);
+            if($entity !== null) {
+                $entities[] = $entity;
+            }
         }
 
         return new EntityCollection($entities);
@@ -59,8 +55,6 @@ class Import
         $entities = [];
         $rows = explode("\n", $data);
 
-        $maxIndex = max(array_keys($importPolicy->getColumnDefinitions()));
-
         for ($i = $importPolicy->getHeaderOffset(); $i < count($rows); $i++) {
             $row = $rows[$i];
 
@@ -75,18 +69,35 @@ class Import
                 $importPolicy->getEscape()
             );
 
-            if (count($rowArray) - 1 < $maxIndex) {
-                if ($importPolicy->isQuiet()) {
-                    continue;
-                } else {
-                    throw new \OutOfBoundsException("Row $i does not contain enough columns, " . ($maxIndex + 1) . " are required as this is the highest index defined in ImportPolicy");
-                }
-            }
+            $entity = self::processRow($i, $rowArray, $importPolicy);
 
-            $entities[] = self::importRow($rowArray, $importPolicy);
+            if($entity !== null) {
+                $entities[] = $entity;
+            }
         }
 
         return new EntityCollection($entities);
+    }
+
+    /**
+     * @param int $rowIndex
+     * @param array $row
+     * @param ImportPolicy $importPolicy
+     * @return Entity|null
+     */
+    private static function processRow($rowIndex, array $row, ImportPolicy $importPolicy)
+    {
+        $maxIndex = max(array_keys($importPolicy->getColumnDefinitions()));
+
+        if (count($row) - 1 < $maxIndex) {
+            if ($importPolicy->isQuiet()) {
+                return null;
+            } else {
+                throw new \OutOfBoundsException("Row $rowIndex does not contain enough columns, " . ($maxIndex + 1) . " are required as this is the highest index defined in ImportPolicy");
+            }
+        }
+
+        return self::importRow($row, $importPolicy);
     }
 
     /**
