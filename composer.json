@@ -16,6 +16,9 @@
   "autoload": {
     "psr-4": {
       "DataFlow\\": "src/"
-    }
+    },
+    "files": [
+      "src/functions.php"
+    ]
   }
 }
