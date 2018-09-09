@@ -16,17 +16,16 @@ class ImportTest extends TestCase
         $importPolicy->setDelimiter(';');
         $importPolicy->setHeaderOffset(1);
         $importPolicy->setQuiet(true);
-        $importPolicy->addColumnDefinition(new ColumnDefinition(0,  'id'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(1,  'firstName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(2,  'lastName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(3,  'age'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(0, 'id'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(1, 'firstName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
         $people = Import::fromString(file_get_contents('test/resources/CSV/testImport_input.csv'), $importPolicy);
 
         $this->assertEquals(3, $people->count());
 
-        foreach($people->getAll() as $person)
-        {
+        foreach ($people->getAll() as $person) {
             $this->assertTrue($person->has('id'));
             $this->assertTrue($person->has('firstName'));
             $this->assertTrue($person->has('lastName'));
@@ -49,10 +48,10 @@ class ImportTest extends TestCase
         $importPolicy->setQuiet(false);
         $importPolicy->setEnclosure('"');
         $importPolicy->setEscape("\\");
-        $importPolicy->addColumnDefinition(new ColumnDefinition(0,  'id'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(1,  'firstName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(2,  'lastName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(3,  'age'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(0, 'id'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(1, 'firstName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
         Import::fromString(file_get_contents('test/resources/CSV/testImport_input.csv'), $importPolicy);
     }
@@ -64,16 +63,16 @@ class ImportTest extends TestCase
         $importPolicy->setHeaderOffset(1);
         $importPolicy->setQuiet(true);
         $importPolicy->setTrimValues(true);
-        $importPolicy->addColumnDefinition(new ColumnDefinition(0,  'id'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(1,  'firstName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(2,  'lastName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(3,  'age'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(0, 'id'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(1, 'firstName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
         $people = Import::fromFile('test/resources/CSV/testImport_input.csv', $importPolicy);
 
-        $newPeople = $people->filter(function(Entity $entity) {
+        $newPeople = $people->filter(function (Entity $entity) {
             return $entity->has('age') && $entity->get('age') >= 18;
-        })->map(function(Entity $entity) {
+        })->map(function (Entity $entity) {
             $newEntity = new Entity($entity->getAll());
             $newEntity->set('fullName', $newEntity->get('firstName') . ' ' . $newEntity->get('lastName'));
 
@@ -83,8 +82,7 @@ class ImportTest extends TestCase
         $this->assertEquals(3, $people->count());
         $this->assertEquals(2, $newPeople->count());
 
-        foreach($newPeople->getAll() as $person)
-        {
+        foreach ($newPeople->getAll() as $person) {
             $this->assertTrue($person->has('id'));
             $this->assertTrue($person->has('firstName'));
             $this->assertTrue($person->has('lastName'));
@@ -107,10 +105,10 @@ class ImportTest extends TestCase
         $importPolicy->setDelimiter(';');
         $importPolicy->setHeaderOffset(1);
         $importPolicy->setQuiet(false);
-        $importPolicy->addColumnDefinition(new ColumnDefinition(0,  'id'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(1,  'firstName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(2,  'lastName'));
-        $importPolicy->addColumnDefinition(new ColumnDefinition(3,  'age'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(0, 'id'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(1, 'firstName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
+        $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
         Import::fromFile('test/resources/CSV/testImport_input.csv', $importPolicy);
     }

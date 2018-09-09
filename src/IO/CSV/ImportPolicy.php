@@ -48,8 +48,8 @@ class ImportPolicy
         $policy = new self();
         $policy->setHeaderOffset(1);
 
-        foreach($header as $i => $key) {
-            if(empty($key)) {
+        foreach ($header as $i => $key) {
+            if (empty($key)) {
                 continue;
             }
 
@@ -57,6 +57,15 @@ class ImportPolicy
         }
 
         return $policy;
+    }
+
+    /**
+     * @param ColumnDefinition $columnDefinition
+     */
+    public function addColumnDefinition(ColumnDefinition $columnDefinition)
+    {
+
+        $this->columnDefinitions[] = $columnDefinition;
     }
 
     /**
@@ -73,15 +82,6 @@ class ImportPolicy
     public function setHeaderOffset($headerOffset)
     {
         $this->headerOffset = $headerOffset;
-    }
-
-    /**
-     * @param ColumnDefinition $columnDefinition
-     */
-    public function addColumnDefinition(ColumnDefinition $columnDefinition)
-    {
-
-        $this->columnDefinitions[] = $columnDefinition;
     }
 
     /**

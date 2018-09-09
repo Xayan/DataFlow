@@ -16,16 +16,6 @@ class EntityCollection
     }
 
     /**
-     * Add an entity to the collection
-     *
-     * @param Entity $entity
-     */
-    public function add(Entity $entity)
-    {
-        $this->entities[] = $entity;
-    }
-
-    /**
      * Get entity at given index
      *
      * @param $index
@@ -132,6 +122,16 @@ class EntityCollection
         }
 
         return $newCollection;
+    }
+
+    /**
+     * Add an entity to the collection
+     *
+     * @param Entity $entity
+     */
+    public function add(Entity $entity)
+    {
+        $this->entities[] = $entity;
     }
 
     /**

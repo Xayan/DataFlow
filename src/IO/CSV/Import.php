@@ -35,41 +35,7 @@ class Import
 
             $entity = self::processRow($rowIndex, $rowArray, $importPolicy);
 
-            if($entity !== null) {
-                $entities[] = $entity;
-            }
-        }
-
-        return new EntityCollection($entities);
-    }
-
-    /**
-     * @param string $data
-     * @param ImportPolicy $importPolicy
-     * @return EntityCollection
-     */
-    public static function fromString($data, ImportPolicy $importPolicy)
-    {
-        $entities = [];
-        $rows = explode("\n", $data);
-
-        for ($i = $importPolicy->getHeaderOffset(); $i < count($rows); $i++) {
-            $row = $rows[$i];
-
-            if (empty($row)) {
-                continue;
-            }
-
-            $rowArray = str_getcsv(
-                $row,
-                $importPolicy->getDelimiter(),
-                $importPolicy->getEnclosure(),
-                $importPolicy->getEscape()
-            );
-
-            $entity = self::processRow($i, $rowArray, $importPolicy);
-
-            if($entity !== null) {
+            if ($entity !== null) {
                 $entities[] = $entity;
             }
         }
@@ -121,6 +87,40 @@ class Import
         }
 
         return $entity;
+    }
+
+    /**
+     * @param string $data
+     * @param ImportPolicy $importPolicy
+     * @return EntityCollection
+     */
+    public static function fromString($data, ImportPolicy $importPolicy)
+    {
+        $entities = [];
+        $rows = explode("\n", $data);
+
+        for ($i = $importPolicy->getHeaderOffset(); $i < count($rows); $i++) {
+            $row = $rows[$i];
+
+            if (empty($row)) {
+                continue;
+            }
+
+            $rowArray = str_getcsv(
+                $row,
+                $importPolicy->getDelimiter(),
+                $importPolicy->getEnclosure(),
+                $importPolicy->getEscape()
+            );
+
+            $entity = self::processRow($i, $rowArray, $importPolicy);
+
+            if ($entity !== null) {
+                $entities[] = $entity;
+            }
+        }
+
+        return new EntityCollection($entities);
     }
 
 }

@@ -50,6 +50,17 @@ class EntityCollectionTest extends TestCase
         $this->assertFalse($entityCollection->has($entities[1]));
     }
 
+    private function createDummyEntities($count, array $properties = [])
+    {
+        $entities = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $entities[] = new Entity($properties);
+        }
+
+        return $entities;
+    }
+
     public function testGetIndex()
     {
         $entities = $this->createDummyEntities(3);
@@ -75,7 +86,7 @@ class EntityCollectionTest extends TestCase
         $entityCollection = new EntityCollection($entities);
         $counter = 0;
 
-        $entityCollection->each(function(Entity $entity) use(&$counter) {
+        $entityCollection->each(function (Entity $entity) use (&$counter) {
             $this->assertNotNull($entity);
 
             $counter++;
@@ -90,7 +101,7 @@ class EntityCollectionTest extends TestCase
         $entityCollection = new EntityCollection($entities);
         $counter = 0;
 
-        $entityCollection->each(function($i, Entity $entity) use(&$counter) {
+        $entityCollection->each(function ($i, Entity $entity) use (&$counter) {
             $this->assertInternalType('int', $i);
             $this->assertNotNull($entity);
 
@@ -107,7 +118,8 @@ class EntityCollectionTest extends TestCase
         $entities = $this->createDummyEntities(10);
         $entityCollection = new EntityCollection($entities);
 
-        $entityCollection->each(function($index, $entity, $exception) {});
+        $entityCollection->each(function ($index, $entity, $exception) {
+        });
     }
 
     public function testFilter()
@@ -120,20 +132,19 @@ class EntityCollectionTest extends TestCase
             new Entity(['age' => 17]),
             new Entity(['age' => 33]),
         ]);
-        
-        $filteredPeople = $people->filter(function(Entity $person) {
+
+        $filteredPeople = $people->filter(function (Entity $person) {
             return $person->has('age') && $person->get('age') >= 18;
         });
-        
+
         $this->assertEquals(3, $filteredPeople->count());
 
-        foreach($filteredPeople->getAll() as $entity) {
+        foreach ($filteredPeople->getAll() as $entity) {
             $this->assertTrue($entity->get('age') >= 18);
         }
 
-        foreach($people->getAll() as $entity)
-        {
-            if($entity->get('age') < 18) {
+        foreach ($people->getAll() as $entity) {
+            if ($entity->get('age') < 18) {
                 $this->assertNotContains($entity, $filteredPeople->getAll());
             }
         }
@@ -153,7 +164,7 @@ class EntityCollectionTest extends TestCase
             ]);
         });
 
-        foreach($mappedPeople->getAll() as $i => $person) {
+        foreach ($mappedPeople->getAll() as $i => $person) {
             $expectedName = $people->get($i)->get('firstName') . ' ' . $people->get($i)->get('lastName');
 
             $this->assertEquals($expectedName, $person->get('name'));
@@ -167,19 +178,8 @@ class EntityCollectionTest extends TestCase
         $entity = new Entity();
         $entityCollection = new EntityCollection([$entity]);
 
-        $entityCollection->map(function(Entity $entity) {
-            
+        $entityCollection->map(function (Entity $entity) {
+
         });
-    }
-
-    private function createDummyEntities($count, array $properties = [])
-    {
-        $entities = [];
-
-        for($i = 0; $i < $count; $i++) {
-            $entities[] = new Entity($properties);
-        }
-
-        return $entities;
     }
 }

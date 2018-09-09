@@ -22,9 +22,18 @@ class Entity
     {
         $this->children = new EntityCollection();
 
-        foreach($properties as $key => $value) {
+        foreach ($properties as $key => $value) {
             $this->set($key, $value);
         }
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set($key, $value)
+    {
+        $this->properties[$key] = $value;
     }
 
     /**
@@ -42,15 +51,6 @@ class Entity
     public function getAll()
     {
         return $this->properties;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     */
-    public function set($key, $value)
-    {
-        $this->properties[$key] = $value;
     }
 
     /**

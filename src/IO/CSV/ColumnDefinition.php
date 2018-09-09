@@ -58,7 +58,7 @@ class ColumnDefinition
      */
     public function setPropertyName($propertyName)
     {
-        if(!is_string($propertyName)) {
+        if (!is_string($propertyName)) {
             throw new \InvalidArgumentException("Parameter \$propertyName must be a string");
         }
 
