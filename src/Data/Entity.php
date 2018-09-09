@@ -4,7 +4,15 @@ namespace DataFlow\Data;
 
 class Entity
 {
-    private $_children;
+    /**
+     * @var array
+     */
+    private $properties = [];
+
+    /**
+     * @var EntityCollection
+     */
+    private $children;
 
     /**
      * Entity constructor.
@@ -12,7 +20,7 @@ class Entity
      */
     public function __construct(array $properties = [])
     {
-        $this->_children = new EntityCollection();
+        $this->children = new EntityCollection();
 
         foreach($properties as $key => $value) {
             $this->set($key, $value);
@@ -25,7 +33,7 @@ class Entity
      */
     public function get($key)
     {
-        return $this->$key;
+        return $this->properties[$key];
     }
 
     /**
@@ -33,18 +41,7 @@ class Entity
      */
     public function getAll()
     {
-        $reflectionClass = new \ReflectionObject($this);
-        $values = [];
-
-        foreach ($reflectionClass->getProperties() as $property) {
-            if(!$property->isPublic()) {
-                continue;
-            }
-
-            $values[$property->getName()] = $property->getValue($this);
-        }
-
-        return $values;
+        return $this->properties;
     }
 
     /**
@@ -53,7 +50,7 @@ class Entity
      */
     public function set($key, $value)
     {
-        $this->$key = $value;
+        $this->properties[$key] = $value;
     }
 
     /**
@@ -61,7 +58,7 @@ class Entity
      */
     public function remove($key)
     {
-        unset($this->$key);
+        unset($this->properties[$key]);
     }
 
     /**
@@ -70,6 +67,6 @@ class Entity
      */
     public function has($key)
     {
-        return property_exists($this, $key);
+        return isset($this->properties[$key]);
     }
 }

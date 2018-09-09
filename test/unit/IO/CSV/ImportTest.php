@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\DataFlow\IO\CSV;
+namespace Test\Unit\DataFlow\IO\CSV;
 
 use DataFlow\Data\Entity;
 use DataFlow\IO\CSV\ColumnDefinition;
@@ -81,16 +81,18 @@ class ImportTest extends TestCase
         $this->assertEquals(3, $people->count());
         $this->assertEquals(2, $newPeople->count());
 
-        foreach($people->getAll() as $person)
+        foreach($newPeople->getAll() as $person)
         {
             $this->assertTrue($person->has('id'));
             $this->assertTrue($person->has('firstName'));
             $this->assertTrue($person->has('lastName'));
+            $this->assertTrue($person->has('fullName'));
             $this->assertTrue($person->has('age'));
 
             $this->assertNotEmpty($person->get('id'));
             $this->assertNotEmpty($person->get('firstName'));
             $this->assertNotEmpty($person->get('lastName'));
+            $this->assertNotEmpty($person->get('fullName'));
             $this->assertNotEmpty($person->get('age'));
         }
     }
