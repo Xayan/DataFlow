@@ -2,10 +2,10 @@
 
 namespace Test\Unit\DataFlow;
 
+use Test\Unit\DataFlowTestCase;
 use function DataFlow\str_putcsv;
-use PHPUnit\Framework\TestCase;
 
-class FunctionsTest extends TestCase
+class FunctionsTest extends DataFlowTestCase
 {
     public function testStrPutCsv()
     {

@@ -20,5 +20,10 @@
     "files": [
       "src/functions.php"
     ]
+  },
+  "autoload-dev": {
+    "files": [
+      "test/DataFlowTestCase.php"
+    ]
   }
 }

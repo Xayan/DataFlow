@@ -1,12 +1,12 @@
 <?php
 
-namespace Test\DataFlow;
+namespace Test\Unit\DataFlow\Data;
 
 use DataFlow\Data\Entity;
 use DataFlow\Data\EntityCollection;
-use PHPUnit\Framework\TestCase;
+use Test\Unit\DataFlowTestCase;
 
-class EntityCollectionTest extends TestCase
+class EntityCollectionTest extends DataFlowTestCase
 {
     public function testAdd()
     {
@@ -48,17 +48,6 @@ class EntityCollectionTest extends TestCase
 
         $this->assertTrue($entityCollection->has($entities[0]));
         $this->assertFalse($entityCollection->has($entities[1]));
-    }
-
-    private function createDummyEntities($count, array $properties = [])
-    {
-        $entities = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            $entities[] = new Entity($properties);
-        }
-
-        return $entities;
     }
 
     public function testGetIndex()

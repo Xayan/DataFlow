@@ -1,11 +1,11 @@
 <?php
 
-namespace Test\Util\IO\CSV;
+namespace Test\Unit\DataFlow\IO\CSV;
 
 use DataFlow\IO\CSV\ImportPolicy;
-use PHPUnit\Framework\TestCase;
+use Test\Unit\DataFlowTestCase;
 
-class ImportPolicyTest extends TestCase
+class ImportPolicyTest extends DataFlowTestCase
 {
     public function testFromHeader()
     {

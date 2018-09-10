@@ -3,9 +3,9 @@
 namespace Test\Unit\DataFlow\Data;
 
 use DataFlow\Data\Entity;
-use PHPUnit\Framework\TestCase;
+use Test\Unit\DataFlowTestCase;
 
-class EntityTest extends TestCase
+class EntityTest extends DataFlowTestCase
 {
     public function testGet()
     {

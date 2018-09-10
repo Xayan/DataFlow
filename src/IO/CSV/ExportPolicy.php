@@ -2,13 +2,10 @@
 
 namespace DataFlow\IO\CSV;
 
-class ImportPolicy
-{
-    /**
-     * @var int
-     */
-    private $headerOffset = 0;
+use DataFlow\Data\Entity;
 
+class ExportPolicy
+{
     /**
      * @var ColumnDefinition[]
      */
@@ -17,12 +14,12 @@ class ImportPolicy
     /**
      * @var bool
      */
-    private $quiet = false;
+    private $includeHeader = false;
 
     /**
      * @var bool
      */
-    private $trimValues = false;
+    private $quiet = false;
 
     /**
      * @var string
@@ -39,21 +36,18 @@ class ImportPolicy
      */
     private $escape = "\\";
 
-    /***
-     * @param array $header
-     * @return ImportPolicy
+    /**
+     * @param Entity $entity
+     * @return ExportPolicy
      */
-    public static function fromHeader(array $header)
+    public static function fromEntity(Entity $entity)
     {
         $policy = new self();
-        $policy->setHeaderOffset(1);
+        $policy->setIncludeHeader(true);
+        $column = 0;
 
-        foreach ($header as $i => $key) {
-            if (empty($key)) {
-                continue;
-            }
-
-            $policy->addColumnDefinition(new ColumnDefinition($i, $key));
+        foreach ($entity->getAll() as $property => $value) {
+            $policy->addColumnDefinition(new ColumnDefinition($column++, $property));
         }
 
         return $policy;
@@ -76,19 +70,19 @@ class ImportPolicy
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getHeaderOffset()
+    public function isIncludeHeader()
     {
-        return $this->headerOffset;
+        return $this->includeHeader;
     }
 
     /**
-     * @param int $headerOffset
+     * @param bool $includeHeader
      */
-    public function setHeaderOffset($headerOffset)
+    public function setIncludeHeader($includeHeader)
     {
-        $this->headerOffset = $headerOffset;
+        $this->includeHeader = $includeHeader;
     }
 
     /**
@@ -108,19 +102,23 @@ class ImportPolicy
     }
 
     /**
-     * @return bool
+     * @return string[]
      */
-    public function isTrimValues()
+    public function getColumnNames()
     {
-        return $this->trimValues;
+        return array_map(function(ColumnDefinition $columnDefinition) {
+            return $columnDefinition->getPropertyName();
+        }, $this->columnDefinitions);
     }
 
     /**
-     * @param bool $trimValues
+     * return int
      */
-    public function setTrimValues($trimValues)
+    public function getHighestIndex()
     {
-        $this->trimValues = $trimValues;
+        return array_reduce($this->columnDefinitions, function($highest, ColumnDefinition $columnDefinition) {
+            return max($highest, $columnDefinition->getColumnIndex());
+        }, 0);
     }
 
     /**

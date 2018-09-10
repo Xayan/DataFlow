@@ -3,9 +3,9 @@
 namespace Test\Unit\DataFlow\IO\CSV;
 
 use DataFlow\IO\CSV\ColumnDefinition;
-use PHPUnit\Framework\TestCase;
+use Test\Unit\DataFlowTestCase;
 
-class ColumnDefinitionTest extends TestCase
+class ColumnDefinitionTest extends DataFlowTestCase
 {
     public function testSetColumnIndexInvalidArgumentException()
     {
@@ -17,7 +17,7 @@ class ColumnDefinitionTest extends TestCase
     public function testSetPropertyNameInvalidArgumentException()
     {
         $this->expectException(\InvalidArgumentException::class);
-        
+
         new ColumnDefinition(0, []);
     }
 }

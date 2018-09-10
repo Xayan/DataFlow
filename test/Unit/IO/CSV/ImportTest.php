@@ -6,11 +6,11 @@ use DataFlow\Data\Entity;
 use DataFlow\IO\CSV\ColumnDefinition;
 use DataFlow\IO\CSV\Import;
 use DataFlow\IO\CSV\ImportPolicy;
-use PHPUnit\Framework\TestCase;
+use Test\Unit\DataFlowTestCase;
 
-class ImportTest extends TestCase
+class ImportTest extends DataFlowTestCase
 {
-    public function testImport()
+    public function testFromString()
     {
         $importPolicy = new ImportPolicy();
         $importPolicy->setDelimiter(';');
@@ -21,7 +21,7 @@ class ImportTest extends TestCase
         $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
-        $people = Import::fromString(file_get_contents('test/resources/CSV/testImport_input.csv'), $importPolicy);
+        $people = Import::fromString(file_get_contents('test/resources/CSV/ImportTest_testFromFile_input.csv'), $importPolicy);
 
         $this->assertEquals(3, $people->count());
 
@@ -53,10 +53,10 @@ class ImportTest extends TestCase
         $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
-        Import::fromString(file_get_contents('test/resources/CSV/testImport_input.csv'), $importPolicy);
+        Import::fromString(file_get_contents('test/resources/CSV/ImportTest_testFromFile_input.csv'), $importPolicy);
     }
 
-    public function testImportFromFile()
+    public function testFromFile()
     {
         $importPolicy = new ImportPolicy();
         $importPolicy->setDelimiter(';');
@@ -68,7 +68,7 @@ class ImportTest extends TestCase
         $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
-        $people = Import::fromFile('test/resources/CSV/testImport_input.csv', $importPolicy);
+        $people = Import::fromFile('test/resources/CSV/ImportTest_testFromFile_input.csv', $importPolicy);
 
         $newPeople = $people->filter(function (Entity $entity) {
             return $entity->has('age') && $entity->get('age') >= 18;
@@ -110,6 +110,6 @@ class ImportTest extends TestCase
         $importPolicy->addColumnDefinition(new ColumnDefinition(2, 'lastName'));
         $importPolicy->addColumnDefinition(new ColumnDefinition(3, 'age'));
 
-        Import::fromFile('test/resources/CSV/testImport_input.csv', $importPolicy);
+        Import::fromFile('test/resources/CSV/ImportTest_testFromFile_input.csv', $importPolicy);
     }
 }
