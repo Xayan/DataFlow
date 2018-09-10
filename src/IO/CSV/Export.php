@@ -107,7 +107,15 @@ class Export
         $mappedEntity = [];
 
         foreach($exportPolicy->getColumnDefinitions() as $columnDefinition) {
-            $mappedEntity[$columnDefinition->getColumnIndex()] = $entity->get($columnDefinition->getPropertyName());
+            if($entity->has($columnDefinition->getPropertyName())) {
+                $mappedEntity[$columnDefinition->getColumnIndex()] = $entity->get($columnDefinition->getPropertyName());
+            } else {
+                if($exportPolicy->isQuiet()) {
+                    $mappedEntity[$columnDefinition->getColumnIndex()] = '';
+                } else {
+                    throw new \OutOfBoundsException("Entity does not contain property '{$columnDefinition->getPropertyName()}'");
+                }
+            }
         }
 
         // If definitions of columns are missing some columns, they need to be filled with empty strings
