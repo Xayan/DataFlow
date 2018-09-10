@@ -18,7 +18,7 @@ class Export
      */
     public static function toStream($stream, EntityCollection $entityCollection, ExportPolicy $exportPolicy)
     {
-        if(get_resource_type($stream) !== 'stream') {
+        if(gettype($stream) !== 'resource' || get_resource_type($stream) !== 'stream') {
             throw new \InvalidArgumentException("Argument \$fileHandler must be a resource of type 'stream' (a file handler)");
         }
 

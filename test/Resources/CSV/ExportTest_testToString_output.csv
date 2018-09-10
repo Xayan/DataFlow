@@ -1,4 +1,4 @@
-id,name,age
-1,"John Doe",12
-2,"Johnny Bravo",30
-3,Jimmy,40
+id;name;age
+1;'John Doe';12
+2;'Johnny Bravo';30
+3;Jimmy;40
